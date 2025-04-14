@@ -398,9 +398,19 @@ class StringLib {
       tail = s!.substring(init - 1);
     }
 
+    pattern = pattern.replaceAll('%', r'\');
+
     var regExpMatch = RegExp(pattern).firstMatch(tail!);
     if (regExpMatch == null) return null;
-    return [regExpMatch.group(0)];
+
+    final count = regExpMatch.groupCount;
+    final result = [
+      for (var i = 1; i <= count; i++)
+        regExpMatch.group(i)
+    ];
+
+
+    return result;
   }
 
 // string.gsub (s, pattern, repl [, n])
